@@ -1,46 +1,47 @@
-import { Component } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-export default class Searchbar extends Component {
-  state = {
-    query: "",
+const Searchbar = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
+
+  const handleNameChange = event => {
+    setQuery(event.target.value);
   };
 
-  handleNameChange = event => {
-    this.setState({ query: event.target.value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-        if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       alert('Введите запрос.');
       return;
     }
 
-     this.props.onSubmit(this.state.query);
-    this.setState({ query: '' });
+    onSubmit(query);
+    setQuery('');
   };
 
-  render() {
-    return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
+  return (
+    <header className="Searchbar">
+      <form className="SearchForm" onSubmit={handleSubmit}>
+        <input
+          className="SearchForm-input"
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={handleNameChange}
+          value={query}
+        />
+        <button type="submit" className="SearchForm-button">
+          <span style={{ fontSize: 30 }}>&#9906;</span>
+        </button>
+      </form>
+    </header>
+  );
+};
 
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
-          <input
-            className="SearchForm-input"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.handleNameChange}
-            value={this.state.query}
-          />
-                    <button type="submit" className="SearchForm-button">
-            <span style={{ fontSize: 30 }}>&#9906;</span>
-          </button>
-        </form>
-      </header>
-    );
-  }
-}
+export default Searchbar;
