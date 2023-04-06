@@ -45,13 +45,16 @@ const App = () => {
       {fotos.length > 0 ? (
         <ImageGallery fotos={fotos} setModalFoto={funcModalFoto} />
       ) : null}
-      {fotos.length > 0 && fotos.length < totalHits && (
+      {fotos.length > 0 && fotos.length < totalHits && !loading &&(
         <Button updatePage={updatePage} />
       )}
       {modalFoto && (
         <Modal modalFoto={modalFoto} setModalFoto={funcModalFoto} />
       )}
-      {loading && <Bars color="#00BFFF" height={80} width={80} />}
+      {loading &&  <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      }}><Bars color="#00BFFF" height={80} width={80} /></div>}
     </div>
   );
 };
